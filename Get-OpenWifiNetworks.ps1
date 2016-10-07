@@ -65,7 +65,7 @@ function get-OpenWifiNetworks
                 $pw2 = ($pw -split ":")[-1].Trim() -replace '"'
                 if ($pw2 -eq "Open") {
                     if ($delete) {
-                        netsh wlan delete profiles name=$out
+                        netsh wlan delete profile name=$out
                     } else {
                         Write-Output "$out"
                     }
