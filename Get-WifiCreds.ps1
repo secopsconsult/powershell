@@ -25,7 +25,11 @@ function get-WifiCreds
     [CmdletBinding()]
     [OutputType([string])]
  
-    Begin
+     Param
+     (
+     )
+
+     Begin
      {
      }
 
