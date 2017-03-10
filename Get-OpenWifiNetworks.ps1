@@ -1,30 +1,20 @@
 <#
 
    .Synopsis
-
       Command to List / delete open Wifi network connections that have been saved.
 
    .DESCRIPTION
-
       Command that goes through each saved Wifi Connection and lists all saved connections which have Open Authentication
 
    .EXAMPLE
-
         get-OpenWifiNetworks
-
             Lists the Open Wifi Networks.
 
- 
-
- 
-
    .EXAMPLE
-
         get-OpenWifiNetworks -delete
-
             Deletes the Open Wifi Networks
 
-   #>
+#>
 
 function get-OpenWifiNetworks
 {
@@ -53,20 +43,22 @@ function get-OpenWifiNetworks
        $Output = netsh wlan show profiles
 
        $SSID = $Output | Select-String -Pattern 'All User Profile'
-       $i = 0
 
        Foreach ($sid in $SSID)
        {
-            $i ++
             $out = ($sid -split ":")[-1].Trim() -replace '"'
             $profile = netsh wlan show profiles name=$out key=clear
             $pw = $profile | select-string -Pattern "Authentication"
-            if ($pw) {
+            if ($pw) 
+	    {
                 $pw2 = ($pw -split ":")[-1].Trim() -replace '"'
-                if ($pw2 -eq "Open") {
-                    if ($delete) {
+                if ($pw2 -eq "Open") 
+		{
+                    if ($delete) 
+		    {
                         netsh wlan delete profile name=$out
-                    } else {
+                    } else 
+                    {
                         Write-Output "$out"
                     }
                 }
