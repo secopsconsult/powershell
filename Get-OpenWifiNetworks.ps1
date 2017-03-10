@@ -39,31 +39,31 @@ function get-OpenWifiNetworks
      Process
      {
 
-       # Run the Netsh command to determine all wifi profiles.
-       $Output = netsh wlan show profiles
+         # Run the Netsh command to determine all wifi profiles.
+         $Output = netsh wlan show profiles
 
-       $SSID = $Output | Select-String -Pattern 'All User Profile'
+         $SSID = $Output | Select-String -Pattern 'All User Profile'
 
-       Foreach ($sid in $SSID)
-       {
-            $out = ($sid -split ":")[-1].Trim() -replace '"'
-            $profile = netsh wlan show profiles name=$out key=clear
-            $pw = $profile | select-string -Pattern "Authentication"
-            if ($pw) 
-	    {
-                $pw2 = ($pw -split ":")[-1].Trim() -replace '"'
-                if ($pw2 -eq "Open") 
-		{
-                    if ($delete) 
-		    {
-                        netsh wlan delete profile name=$out
-                    } else 
-                    {
-                        Write-Output "$out"
-                    }
-                }
-            }
-        }
+         Foreach ($sid in $SSID)
+         {
+             $out = ($sid -split ":")[-1].Trim() -replace '"'
+             $profile = netsh wlan show profiles name=$out key=clear
+             $pw = $profile | select-string -Pattern "Authentication"
+             if ($pw) 
+	     {
+                 $pw2 = ($pw -split ":")[-1].Trim() -replace '"'
+                 if ($pw2 -eq "Open") 
+		 {
+                     if ($delete) 
+		     {
+                         netsh wlan delete profile name=$out
+                     } else 
+                     {
+                         Write-Output "$out"
+                     }
+                 }
+             }
+         }
      }
 
      End
